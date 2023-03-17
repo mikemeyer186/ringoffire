@@ -9,6 +9,7 @@
   position: relative;
   height: 200px;
   width: 200px;
+  transform: translate(-120px, 100px);
 }
 
 .card-cover {
@@ -24,6 +25,12 @@
   &:hover {
     transform: translateY(-20px);
   }
+}
+
+.played-card {
+  right: 50px !important;
+  animation: pick-card-animation 1s ease-in-out;
+  transform: translate(200px, -200px) scale(1) rotate(-35deg);
 }
 
 .pick-card {
