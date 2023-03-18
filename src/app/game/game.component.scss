@@ -38,6 +38,12 @@
   transform: translate(200px, -200px) scale(1) rotate(-35deg);
 }
 
+.player-list {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 @keyframes pick-card-animation {
   0% {
     transform: translate(0px, 0px);
