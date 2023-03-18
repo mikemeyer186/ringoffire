@@ -44,6 +44,12 @@
   right: 0;
 }
 
+.button-add-player {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
 @keyframes pick-card-animation {
   0% {
     transform: translate(0px, 0px);
