@@ -22,7 +22,6 @@ export class GameComponent implements OnInit {
     this.pickCardAnimation = true;
     this.popLastCard();
     this.setCurrentPlayer();
-    this.logGame();
   }
 
   setCurrentPlayer() {
@@ -54,8 +53,9 @@ export class GameComponent implements OnInit {
     const dialogRef = this.dialog.open(AddDialogComponent);
 
     dialogRef.afterClosed().subscribe((name: string) => {
-      this.game.players.push(name);
-      console.log(this.game);
+      if (name) {
+        this.game.players.push(name);
+      }
     });
   }
 }

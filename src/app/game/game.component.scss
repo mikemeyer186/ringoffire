@@ -9,7 +9,7 @@
   position: relative;
   height: 200px;
   width: 200px;
-  transform: translate(-120px, 100px);
+  transform: translate(-120px, 50px);
 }
 
 .card-cover {
@@ -46,8 +46,15 @@
 
 .button-add-player {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 15px;
+  right: 20px;
+}
+
+.task-box {
+  position: absolute;
+  bottom: 15px;
+  left: 100px;
+  right: 100px;
 }
 
 @keyframes pick-card-animation {
