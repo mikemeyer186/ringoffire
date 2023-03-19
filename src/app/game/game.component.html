@@ -10,7 +10,7 @@
     </div>
 </div>
 
-<app-player-list class="player-list" [players]="game.players"></app-player-list>
+<app-player-list class="player-list" [players]="game.players" [activePlayer]="game.currentPlayer"></app-player-list>
 
 <button (click)="openDialog()" class="button-add-player" mat-fab color="primary" title="Add new player">
     <mat-icon>person_add</mat-icon>
