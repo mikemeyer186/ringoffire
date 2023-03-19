@@ -10,7 +10,7 @@ import { AddDialogComponent } from '../add-dialog/add-dialog.component';
 })
 export class GameComponent implements OnInit {
   pickCardAnimation = false;
-  currentCard: string = '';
+  currentCard: string | undefined = '';
   stackLength: number = 0;
   game: Game = new Game();
 
@@ -21,11 +21,14 @@ export class GameComponent implements OnInit {
   }
 
   takeCard() {
-    this.stackLength = this.game.stack.length - 1;
-    this.currentCard = this.game.stack[this.stackLength];
-    this.game.stack.splice(this.stackLength, 1);
-    this.game.playedCards.push(this.currentCard);
-    this.pickCardAnimation = true;
+    if (this.game.stack.length > 0) {
+      this.pickCardAnimation = true;
+      this.currentCard = this.game.stack.pop();
+
+      if (this.currentCard != undefined) {
+        this.game.playedCards.push(this.currentCard);
+      }
+    }
   }
 
   newGame() {
