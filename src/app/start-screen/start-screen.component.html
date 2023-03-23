@@ -1,4 +1,10 @@
 <div class="start-screen">
     <img src="assets/img/start-logo.png" alt="Playing cards">
-    <button (click)="newGame()">Start game</button>
+    <button (click)="newGame()">New game</button>
+    <mat-form-field appearance="fill" class="load-game">
+        <mat-label>Load Game</mat-label>
+        <mat-select>
+            <mat-option *ngFor="let game of games$ | async" (click)="loadGame(game.id)">{{ game.id }}</mat-option>
+        </mat-select>
+    </mat-form-field>
 </div>
