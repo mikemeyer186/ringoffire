@@ -3,8 +3,8 @@
         <img *ngFor="let c of [0,1,2,3,4]; let i = index;" [ngStyle]="{'right.px': i * 5}" class="card-cover"
             src="assets/img/cards/cover_red.png" alt="Card Stack">
         <img (click)="takeCard()" class="card-cover card-top" src="assets/img/cards/cover_red.png" alt="Card Stack">
-        <img *ngIf="pickCardAnimation" class="card-cover pick-card" src="assets/img/cards/{{ currentCard }}.png"
-            alt="Card Stack">
+        <img *ngIf="gameObject.pickCardAnimation" class="card-cover pick-card"
+            src="assets/img/cards/{{ gameObject.currentCard }}.png" alt="Card Stack">
         <img *ngFor="let card of gameObject.playedCards; let i = index;" [ngStyle]="{'right.px': i * 5}"
             class="card-cover played-card" src="assets/img/cards/{{ card }}.png" alt="Card Stack">
     </div>
@@ -13,7 +13,7 @@
 <app-player-list class="player-list" [players]="gameObject.players"
     [activePlayer]="gameObject.currentPlayer"></app-player-list>
 
-<app-task-box class="task-box" [card]="currentCard"></app-task-box>
+<app-task-box class="task-box" [card]="gameObject.currentCard"></app-task-box>
 
 <button (click)="openDialog()" class="button-add-player" mat-fab color="primary" title="Add new player"
     [disabled]="gameObject.players.length == 9">

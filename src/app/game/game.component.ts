@@ -24,9 +24,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./game.component.scss'],
 })
 export class GameComponent implements OnInit {
-  pickCardAnimation = false;
-  currentCard: string | undefined = '';
-  stackLength: number = 0;
   gameObject: Game = new Game();
   game$!: Observable<any>;
   firestore: Firestore = inject(Firestore);
@@ -49,10 +46,16 @@ export class GameComponent implements OnInit {
     });
   }
 
+  async gameUpdate() {
+    const dbObject = doc(this.firestore, `games/${this.gameID}`);
+    await updateDoc(dbObject, JSON.parse(JSON.stringify(this.gameObject)));
+  }
+
   takeCard() {
-    this.pickCardAnimation = true;
+    this.gameObject.pickCardAnimation = true;
     this.popLastCard();
     this.setCurrentPlayer();
+    this.gameUpdate();
   }
 
   setCurrentPlayer() {
@@ -65,19 +68,15 @@ export class GameComponent implements OnInit {
 
   popLastCard() {
     if (this.gameObject.stack.length > 0) {
-      this.currentCard = this.gameObject.stack.pop();
+      this.gameObject.currentCard = this.gameObject.stack.pop();
       this.pushPlayedCard();
     }
   }
 
   pushPlayedCard() {
-    if (this.currentCard != undefined) {
-      this.gameObject.playedCards.push(this.currentCard);
+    if (this.gameObject.currentCard != undefined) {
+      this.gameObject.playedCards.push(this.gameObject.currentCard);
     }
-  }
-
-  logGame() {
-    console.log(this.gameObject);
   }
 
   openDialog(): void {
@@ -86,6 +85,7 @@ export class GameComponent implements OnInit {
     dialogRef.afterClosed().subscribe((name: string) => {
       if (name) {
         this.gameObject.players.push(name);
+        this.gameUpdate();
       }
     });
   }

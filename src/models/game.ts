@@ -4,6 +4,8 @@ export class Game {
   public playedCards: string[] = [];
   public currentPlayer: number = 1;
   public gameDate: Date = new Date();
+  public pickCardAnimation = false;
+  public currentCard: string | undefined = '';
 
   constructor() {
     for (let i = 1; i < 14; i++) {
@@ -22,7 +24,12 @@ export class Game {
       stack: this.stack,
       playedCards: this.playedCards,
       currentPlayer: this.currentPlayer,
-      gameDate: this.gameDate.toLocaleDateString(),
+      gameDate:
+        this.gameDate.toLocaleDateString() +
+        ' ' +
+        this.gameDate.toLocaleTimeString(),
+      pickCardAnimation: this.pickCardAnimation,
+      currentCard: this.currentCard,
     };
   }
 }
