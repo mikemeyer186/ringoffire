@@ -3,6 +3,7 @@ export class Game {
   public stack: string[] = [];
   public playedCards: string[] = [];
   public currentPlayer: number = 1;
+  public gameDate: Date = new Date();
 
   constructor() {
     for (let i = 1; i < 14; i++) {
@@ -13,6 +14,16 @@ export class Game {
     }
 
     randomize(this.stack);
+  }
+
+  public toJson() {
+    return {
+      players: this.players,
+      stack: this.stack,
+      playedCards: this.playedCards,
+      currentPlayer: this.currentPlayer,
+      gameDate: this.gameDate.toLocaleDateString(),
+    };
   }
 }
 

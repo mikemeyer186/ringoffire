@@ -23,9 +23,9 @@ import { Observable } from 'rxjs';
 })
 export class StartScreenComponent {
   games$: Observable<any>;
-  game$!: Observable<any>;
   firestore: Firestore = inject(Firestore);
-  public gameObject: Game = new Game();
+  gameObject: Game = new Game();
+  gameID: string = '';
 
   constructor(private router: Router) {
     const gameCollection = collection(this.firestore, 'games');
@@ -34,21 +34,16 @@ export class StartScreenComponent {
 
   newGame() {
     this.addGame();
-    this.router.navigateByUrl('/game');
   }
 
   async addGame() {
-    const gameCollection = collection(this.firestore, 'games');
-    await addDoc(gameCollection, JSON.parse(JSON.stringify(this.gameObject)));
+    const gameCollection = await collection(this.firestore, 'games');
+    await addDoc(gameCollection, this.gameObject.toJson()).then((game) => {
+      this.loadGame(game.id);
+    });
   }
 
   loadGame(id: string) {
-    const dbObject = doc(this.firestore, `games/${id}`);
-    this.game$ = docData(dbObject, { idField: 'id' });
-    this.game$.subscribe((game) => {
-      this.gameObject = game;
-    });
-
-    this.router.navigateByUrl('/game');
+    this.router.navigateByUrl(`/game/${id}`);
   }
 }
