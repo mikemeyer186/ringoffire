@@ -8,6 +8,7 @@ import {
   deleteDoc,
   collectionData,
 } from '@angular/fire/firestore';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Game } from 'src/models/game';
 
@@ -22,22 +23,27 @@ export class EndDialogComponent implements OnInit {
   gameObject: Game = new Game();
   gameID: string = '';
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    public dialogRef: MatDialogRef<EndDialogComponent>
+  ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((param) => {
-      this.gameID = param['id'];
-      console.log(this.gameID);
+    this.route.firstChild?.params.subscribe((params: any) => {
+      this.gameID = params['id'];
     });
   }
 
   backToMenu() {
     this.endScreenClick = true;
     this.router.navigateByUrl('/');
+    this.dialogRef.close();
     this.deleteGame();
   }
 
   async newGame() {
+    this.endScreenClick = true;
     const gameCollection = await collection(this.firestore, 'games');
     await addDoc(gameCollection, this.gameObject.toJson()).then((game) => {
       this.loadGame(game.id);
@@ -46,11 +52,12 @@ export class EndDialogComponent implements OnInit {
 
   loadGame(id: string) {
     this.router.navigateByUrl(`/game/${id}`);
+    this.dialogRef.close();
     this.deleteGame();
   }
 
-  deleteGame() {
-    //const dbObject = doc(this.firestore, `games/${id}`);
-    //deleteDoc(dbObject);
+  async deleteGame() {
+    const dbObject = doc(this.firestore, `games/${this.gameID}`);
+    await deleteDoc(dbObject);
   }
 }

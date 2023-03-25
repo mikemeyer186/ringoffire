@@ -38,6 +38,10 @@
   transform: translate(200px, -200px) scale(1) rotate(-35deg);
 }
 
+.noCards {
+  display: none;
+}
+
 .player-list {
   position: absolute;
   top: 0;

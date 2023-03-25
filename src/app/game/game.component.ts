@@ -30,6 +30,10 @@ export class GameComponent implements OnInit {
   game$!: Observable<any>;
   firestore: Firestore = inject(Firestore);
   gameID: string = '';
+  cardStack: number[] = [0, 1, 2, 3, 4];
+  noCards: Boolean = false;
+  noTakeCard: Boolean = false;
+  offset: number = 25;
 
   constructor(
     private route: ActivatedRoute,
@@ -45,11 +49,24 @@ export class GameComponent implements OnInit {
   }
 
   async loadGame() {
-    const dbObject = await doc(this.firestore, `games/${this.gameID}`);
-    this.game$ = await docData(dbObject, { idField: 'id' });
+    this.resetStack();
+    const dbObject = doc(this.firestore, `games/${this.gameID}`);
+    this.game$ = docData(dbObject, { idField: 'id' });
     this.game$.subscribe((game) => {
       this.gameObject = game;
+      console.log(this.gameObject);
     });
+    setTimeout(() => {
+      this.checkCardStack();
+    }, 1000);
+  }
+
+  resetStack() {
+    this.noCards = false;
+    this.noTakeCard = false;
+    this.cardStack = [0, 1, 2, 3, 4];
+    this.offset = 25;
+    this.gameObject.pickCardAnimation = false;
   }
 
   async gameUpdate() {
@@ -58,12 +75,31 @@ export class GameComponent implements OnInit {
   }
 
   takeCard() {
-    if (this.gameObject.stack.length > 0) {
-      this.gameObject.pickCardAnimation = true;
-      this.popLastCard();
-      this.setCurrentPlayer();
-      this.gameUpdate();
-    } else {
+    this.gameObject.pickCardAnimation = true;
+    this.popLastCard();
+    this.setCurrentPlayer();
+    this.gameUpdate();
+    this.checkCardStack();
+  }
+
+  checkCardStack() {
+    let stackLength = this.gameObject.stack.length;
+    if (stackLength < 20 && stackLength >= 15) {
+      this.cardStack = [0, 1, 2, 3];
+      this.offset = 20;
+    } else if (stackLength < 15 && stackLength >= 10) {
+      this.cardStack = [0, 1, 2];
+      this.offset = 15;
+    } else if (stackLength < 10 && stackLength >= 5) {
+      this.cardStack = [0, 1];
+      this.offset = 10;
+    } else if (stackLength < 5 && stackLength > 1) {
+      this.cardStack = [0];
+      this.offset = 5;
+    } else if (stackLength == 1) {
+      this.noCards = true;
+    } else if (stackLength == 0) {
+      this.noTakeCard = true;
       this.endScreenDialog();
     }
   }

@@ -1,8 +1,9 @@
 <div class="game-field">
     <div class="card-stack">
-        <img *ngFor="let c of [0,1,2,3,4]; let i = index;" [ngStyle]="{'right.px': i * 5}" class="card-cover"
-            src="assets/img/cards/cover_red.png" alt="Card Stack">
-        <img (click)="takeCard()" class="card-cover card-top" src="assets/img/cards/cover_red.png" alt="Card Stack">
+        <img *ngFor="let c of cardStack; let i = index;" [ngStyle]="{'right.px': i * 5}" class="card-cover"
+            [class.noCards]="noCards" src="assets/img/cards/cover_red.png" alt="Card Stack">
+        <img (click)="takeCard()" [class.noCards]="noTakeCard" [ngStyle]="{'right.px': offset}"
+            class="card-cover card-top" src="assets/img/cards/cover_red.png" alt="Card Stack">
         <img *ngIf="gameObject.pickCardAnimation" class="card-cover pick-card"
             src="assets/img/cards/{{ gameObject.currentCard }}.png" alt="Card Stack">
         <img *ngFor="let card of gameObject.playedCards; let i = index;" [ngStyle]="{'right.px': i * 5}"
