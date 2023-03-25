@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddDialogComponent } from '../add-dialog/add-dialog.component';
 import { ActivatedRoute } from '@angular/router';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   Firestore,
   collectionData,
@@ -29,7 +30,11 @@ export class GameComponent implements OnInit {
   firestore: Firestore = inject(Firestore);
   gameID: string = '';
 
-  constructor(private route: ActivatedRoute, public dialog: MatDialog) {}
+  constructor(
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((param) => {
@@ -88,5 +93,9 @@ export class GameComponent implements OnInit {
         this.gameUpdate();
       }
     });
+  }
+
+  backToMenu() {
+    this.router.navigateByUrl('/');
   }
 }
