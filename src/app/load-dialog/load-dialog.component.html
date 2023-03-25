@@ -1,0 +1,19 @@
+<div class="load-dialog">
+
+    <h1>Load game</h1>
+
+    <table cellspacing="0" cellpadding="0">
+        <tr>
+            <th>No.</th>
+            <th>Start date</th>
+            <th>Game ID</th>
+        </tr>
+        <tr *ngFor="let game of games$ | async; let i = index;" (click)="loadGame(game.id)"
+            [mat-dialog-close]="loadedGame" class="load-game-row">
+            <td>{{ i + 1 }}</td>
+            <td>{{ game.gameDate }}</td>
+            <td>{{ game.id }}</td>
+        </tr>
+    </table>
+
+</div>

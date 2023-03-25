@@ -1,20 +1,16 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { Game } from 'src/models/game';
 import { inject } from '@angular/core';
 import {
   Firestore,
   collectionData,
   collection,
-  setDoc,
-  doc,
-  getDoc,
-  deleteDoc,
-  updateDoc,
   addDoc,
-  docData,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { LoadDialogComponent } from '../load-dialog/load-dialog.component';
 
 @Component({
   selector: 'app-start-screen',
@@ -25,9 +21,8 @@ export class StartScreenComponent {
   games$: Observable<any>;
   firestore: Firestore = inject(Firestore);
   gameObject: Game = new Game();
-  gameID: string = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, public dialog: MatDialog) {
     const gameCollection = collection(this.firestore, 'games');
     this.games$ = collectionData(gameCollection, { idField: 'id' });
   }
@@ -41,6 +36,10 @@ export class StartScreenComponent {
     await addDoc(gameCollection, this.gameObject.toJson()).then((game) => {
       this.loadGame(game.id);
     });
+  }
+
+  openLoadDialog(): void {
+    this.dialog.open(LoadDialogComponent);
   }
 
   loadGame(id: string) {

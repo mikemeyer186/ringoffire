@@ -28,9 +28,9 @@
   }
 }
 
-.load-game {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  width: 250px;
+.buttons-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }

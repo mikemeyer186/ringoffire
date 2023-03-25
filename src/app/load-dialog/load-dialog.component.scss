@@ -1,0 +1,16 @@
+.load-dialog {
+  padding: 30px;
+
+  .load-game-row {
+    transition: all 125ms ease-in-out;
+    cursor: pointer;
+    &:hover {
+      border-radius: 12px;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  td {
+    padding: 5px 10px 5px 10px;
+  }
+}

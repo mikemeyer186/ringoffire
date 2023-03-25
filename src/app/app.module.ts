@@ -23,6 +23,7 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { MatSelectModule } from '@angular/material/select';
+import { LoadDialogComponent } from './load-dialog/load-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { MatSelectModule } from '@angular/material/select';
     PlayerListComponent,
     AddDialogComponent,
     TaskBoxComponent,
+    LoadDialogComponent,
   ],
   imports: [
     BrowserModule,
