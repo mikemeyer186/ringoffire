@@ -18,6 +18,7 @@ import {
   docData,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { EndDialogComponent } from '../end-dialog/end-dialog.component';
 
 @Component({
   selector: 'app-game',
@@ -57,10 +58,14 @@ export class GameComponent implements OnInit {
   }
 
   takeCard() {
-    this.gameObject.pickCardAnimation = true;
-    this.popLastCard();
-    this.setCurrentPlayer();
-    this.gameUpdate();
+    if (this.gameObject.stack.length > 0) {
+      this.gameObject.pickCardAnimation = true;
+      this.popLastCard();
+      this.setCurrentPlayer();
+      this.gameUpdate();
+    } else {
+      this.endScreenDialog();
+    }
   }
 
   setCurrentPlayer() {
@@ -72,10 +77,8 @@ export class GameComponent implements OnInit {
   }
 
   popLastCard() {
-    if (this.gameObject.stack.length > 0) {
-      this.gameObject.currentCard = this.gameObject.stack.pop();
-      this.pushPlayedCard();
-    }
+    this.gameObject.currentCard = this.gameObject.stack.pop();
+    this.pushPlayedCard();
   }
 
   pushPlayedCard() {
@@ -97,5 +100,9 @@ export class GameComponent implements OnInit {
 
   backToMenu() {
     this.router.navigateByUrl('/');
+  }
+
+  endScreenDialog(): void {
+    this.dialog.open(EndDialogComponent);
   }
 }

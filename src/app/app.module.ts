@@ -24,6 +24,7 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { MatSelectModule } from '@angular/material/select';
 import { LoadDialogComponent } from './load-dialog/load-dialog.component';
+import { EndDialogComponent } from './end-dialog/end-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { LoadDialogComponent } from './load-dialog/load-dialog.component';
     AddDialogComponent,
     TaskBoxComponent,
     LoadDialogComponent,
+    EndDialogComponent,
   ],
   imports: [
     BrowserModule,

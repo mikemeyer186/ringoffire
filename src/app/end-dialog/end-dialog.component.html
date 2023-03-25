@@ -1,0 +1,13 @@
+<div class="end-dialog">
+
+    <h1>Game over!</h1>
+
+    <p>Sorry, no more cards in stack.<br>
+        Do you want to start a new game?</p>
+
+    <div mat-dialog-actions>
+        <button mat-button (click)="newGame()" [mat-dialog-close]="endScreenClick" cdkFocusInitial>Yes, go on!</button>
+        <button mat-button (click)="backToMenu()" [mat-dialog-close]="endScreenClick">No, thanks</button>
+    </div>
+
+</div>
