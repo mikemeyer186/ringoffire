@@ -25,10 +25,17 @@ export class GameComponent implements OnInit {
     this.sds.getGameIdFromRoute();
     this.sds.loadGame();
     this.sds.resetStack();
+    this.checkPlayer();
 
     setTimeout(() => {
       this.checkCardStack();
     }, 1000);
+  }
+
+  checkPlayer() {
+    if (this.sds.gameObject.players.length == 0) {
+      this.openDialog();
+    }
   }
 
   takeCard() {

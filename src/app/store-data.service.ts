@@ -48,7 +48,6 @@ export class StoreDataService {
    * loading game data from firestore
    */
   async loadGame() {
-    this.gameObject = new Game();
     const dbObject = doc(this.firestore, `games/${this.gameID}`);
     onSnapshot(dbObject, async (doc: any) => {
       this.gameObject = await doc.data();
