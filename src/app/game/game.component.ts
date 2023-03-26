@@ -16,9 +16,11 @@ import {
   updateDoc,
   addDoc,
   docData,
+  onSnapshot,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { EndDialogComponent } from '../end-dialog/end-dialog.component';
+import { StoreDataService } from '../store-data.service';
 
 @Component({
   selector: 'app-game',
@@ -38,7 +40,8 @@ export class GameComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    public StoreDataService: StoreDataService
   ) {}
 
   ngOnInit(): void {
@@ -51,14 +54,25 @@ export class GameComponent implements OnInit {
   async loadGame() {
     this.resetStack();
     const dbObject = doc(this.firestore, `games/${this.gameID}`);
-    this.game$ = docData(dbObject, { idField: 'id' });
-    this.game$.subscribe((game) => {
-      this.gameObject = game;
-      console.log(this.gameObject);
+
+    onSnapshot(dbObject, async (doc: any) => {
+      this.gameObject = await doc.data();
     });
+
     setTimeout(() => {
       this.checkCardStack();
     }, 1000);
+
+    /*     this.game$ = docData(dbObject);
+
+
+    if (this.game$) {
+      this.game$.subscribe((game) => {
+        this.gameObject = game;
+        console.log(this.gameObject);
+      });
+    }
+ */
   }
 
   resetStack() {

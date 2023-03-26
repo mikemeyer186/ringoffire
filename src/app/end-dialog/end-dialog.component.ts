@@ -6,11 +6,11 @@ import {
   addDoc,
   doc,
   deleteDoc,
-  collectionData,
 } from '@angular/fire/firestore';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Game } from 'src/models/game';
+import { StoreDataService } from '../store-data.service';
 
 @Component({
   selector: 'app-end-dialog',
@@ -26,38 +26,29 @@ export class EndDialogComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    public dialogRef: MatDialogRef<EndDialogComponent>
+    public dialogRef: MatDialogRef<EndDialogComponent>,
+    public StoreDataService: StoreDataService
   ) {}
 
-  ngOnInit(): void {
-    this.route.firstChild?.params.subscribe((params: any) => {
-      this.gameID = params['id'];
-    });
-  }
+  ngOnInit(): void {}
 
   backToMenu() {
     this.endScreenClick = true;
+    this.StoreDataService.deleteGame();
     this.router.navigateByUrl('/');
     this.dialogRef.close();
-    this.deleteGame();
   }
 
   async newGame() {
     this.endScreenClick = true;
-    const gameCollection = await collection(this.firestore, 'games');
+    const gameCollection = collection(this.firestore, 'games');
     await addDoc(gameCollection, this.gameObject.toJson()).then((game) => {
       this.loadGame(game.id);
     });
   }
 
   loadGame(id: string) {
+    this.StoreDataService.deleteGame();
     this.router.navigateByUrl(`/game/${id}`);
-    this.dialogRef.close();
-    this.deleteGame();
-  }
-
-  async deleteGame() {
-    const dbObject = doc(this.firestore, `games/${this.gameID}`);
-    await deleteDoc(dbObject);
   }
 }
