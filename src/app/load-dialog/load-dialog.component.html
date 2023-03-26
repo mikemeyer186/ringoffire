@@ -1,6 +1,6 @@
 <div class="load-dialog">
 
-    <h1>Join active game</h1>
+    <h1>Join active games</h1>
 
     <table cellspacing="0" cellpadding="0">
         <tr>
@@ -15,5 +15,6 @@
             <td>{{ game.id }}</td>
         </tr>
     </table>
+    <div *ngIf="noGames" class="no-games-info">No active games available</div>
 
 </div>

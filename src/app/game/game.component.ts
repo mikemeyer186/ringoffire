@@ -62,17 +62,6 @@ export class GameComponent implements OnInit {
     setTimeout(() => {
       this.checkCardStack();
     }, 1000);
-
-    /*     this.game$ = docData(dbObject);
-
-
-    if (this.game$) {
-      this.game$.subscribe((game) => {
-        this.gameObject = game;
-        console.log(this.gameObject);
-      });
-    }
- */
   }
 
   resetStack() {
@@ -113,6 +102,7 @@ export class GameComponent implements OnInit {
     } else if (stackLength == 1) {
       this.noCards = true;
     } else if (stackLength == 0) {
+      this.noCards = true;
       this.noTakeCard = true;
       this.endScreenDialog();
     }

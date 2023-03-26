@@ -17,7 +17,7 @@
 <app-task-box class="task-box" [card]="gameObject.currentCard"></app-task-box>
 
 <button (click)="openDialog()" class="button-add-player" mat-fab color="primary" title="Add new player"
-    [disabled]="gameObject.players.length == 9">
+    [disabled]="gameObject.players.length == 9" [disabled]="gameObject.stack.length == 0">
     <mat-icon>person_add</mat-icon>
 </button>
 
