@@ -1,23 +1,23 @@
 <div class="game-field">
     <div class="card-stack">
-        <img *ngFor="let c of cardStack; let i = index;" [ngStyle]="{'right.px': i * 5}" class="card-cover"
-            [class.noCards]="noCards" src="assets/img/cards/cover_red.png" alt="Card Stack">
-        <img (click)="takeCard()" [class.noCards]="noTakeCard" [ngStyle]="{'right.px': offset}"
+        <img *ngFor="let c of sds.cardStack; let i = index;" [ngStyle]="{'right.px': i * 5}" class="card-cover"
+            [class.noCards]="sds.noCards" src="assets/img/cards/cover_red.png" alt="Card Stack">
+        <img (click)="takeCard()" [class.noCards]="sds.noTakeCard" [ngStyle]="{'right.px': sds.offset}"
             class="card-cover card-top" src="assets/img/cards/cover_red.png" alt="Card Stack">
-        <img *ngIf="gameObject.pickCardAnimation" class="card-cover pick-card"
-            src="assets/img/cards/{{ gameObject.currentCard }}.png" alt="Card Stack">
-        <img *ngFor="let card of gameObject.playedCards; let i = index;" [ngStyle]="{'right.px': i * 5}"
+        <img *ngIf="sds.gameObject.pickCardAnimation" class="card-cover pick-card"
+            src="assets/img/cards/{{ sds.gameObject.currentCard }}.png" alt="Card Stack">
+        <img *ngFor="let card of sds.gameObject.playedCards; let i = index;" [ngStyle]="{'right.px': i * 5}"
             class="card-cover played-card" src="assets/img/cards/{{ card }}.png" alt="Card Stack">
     </div>
 </div>
 
-<app-player-list class="player-list" [players]="gameObject.players"
-    [activePlayer]="gameObject.currentPlayer"></app-player-list>
+<app-player-list class="player-list" [players]="sds.gameObject.players"
+    [activePlayer]="sds.gameObject.currentPlayer"></app-player-list>
 
-<app-task-box class="task-box" [card]="gameObject.currentCard"></app-task-box>
+<app-task-box class="task-box" [card]="sds.gameObject.currentCard"></app-task-box>
 
 <button (click)="openDialog()" class="button-add-player" mat-fab color="primary" title="Add new player"
-    [disabled]="gameObject.players.length == 9" [disabled]="gameObject.stack.length == 0">
+    [disabled]="sds.gameObject.players.length == 9" [disabled]="sds.gameObject.stack.length == 0">
     <mat-icon>person_add</mat-icon>
 </button>
 

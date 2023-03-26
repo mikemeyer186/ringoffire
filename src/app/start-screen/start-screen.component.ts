@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LoadDialogComponent } from '../load-dialog/load-dialog.component';
 import { StoreDataService } from '../store-data.service';
