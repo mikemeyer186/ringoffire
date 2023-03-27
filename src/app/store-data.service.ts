@@ -12,12 +12,20 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StoreDataService {
+  gameData$: any;
+  dbPath: string = '/games';
+  gamesRef: AngularFirestoreCollection<Game>;
+
   gameID: string = '';
   oldGameID: string = '';
   games$: Observable<any>;
@@ -28,10 +36,40 @@ export class StoreDataService {
   noTakeCard: Boolean = false;
   offset: number = 25;
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    db: AngularFirestore
+  ) {
     const gameCollection = collection(this.firestore, 'games');
     this.games$ = collectionData(gameCollection, { idField: 'id' });
+    this.games$.subscribe((game) => {
+      console.log(game);
+    });
+
+    /* new */
+    this.gamesRef = db.collection(this.dbPath);
+    const doc = this.gamesRef.doc('hkp6oMfH4nvQt7DEapTv');
+    console.log(doc);
   }
+
+  getAll(): AngularFirestoreCollection<Game> {
+    return this.gamesRef;
+  }
+
+  async create(game: Game): Promise<any> {
+    return await this.gamesRef.add({ ...JSON.parse(JSON.stringify(game)) });
+  }
+
+  async update(id: string, data: any): Promise<void> {
+    return await this.gamesRef.doc(id).update(data);
+  }
+
+  async delete(id: string): Promise<void> {
+    return this.gamesRef.doc(id).delete();
+  }
+
+  /************************/
 
   /**
    * adding a new doc to firestore and redirects to game with new game id

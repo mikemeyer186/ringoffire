@@ -1,30 +1,33 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StartScreenComponent } from './start-screen/start-screen.component';
 import { GameComponent } from './game/game.component';
 import { PlayerListComponent } from './player-list/player-list.component';
+import { LoadDialogComponent } from './load-dialog/load-dialog.component';
+import { EndDialogComponent } from './end-dialog/end-dialog.component';
+import { AddDialogComponent } from './add-dialog/add-dialog.component';
+import { TaskBoxComponent } from './task-box/task-box.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { AddDialogComponent } from './add-dialog/add-dialog.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { TaskBoxComponent } from './task-box/task-box.component';
 import { MatCardModule } from '@angular/material/card';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from '../environments/environment';
+
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { MatSelectModule } from '@angular/material/select';
-import { LoadDialogComponent } from './load-dialog/load-dialog.component';
-import { EndDialogComponent } from './end-dialog/end-dialog.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +52,8 @@ import { EndDialogComponent } from './end-dialog/end-dialog.component';
     FormsModule,
     MatCardModule,
     MatSelectModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
