@@ -19,6 +19,13 @@ export class LoadDialogComponent implements OnInit {
 
   loadGameList() {
     this.sds.fetchGames();
+    this.checkGameList();
+  }
+
+  checkGameList() {
+    if (this.sds.gameList.length == 0) {
+      this.noGames = true;
+    }
   }
 
   loadGame(id: string) {

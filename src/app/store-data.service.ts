@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Game } from 'src/models/game';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StoreDataService {
-  gameList!: any;
+  gameList: any = [];
   gameID: string = '';
   gameObject: Game = new Game();
   oldGameID: string = '';
