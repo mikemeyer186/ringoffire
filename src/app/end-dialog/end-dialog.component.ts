@@ -19,13 +19,15 @@ export class EndDialogComponent {
 
   newGame() {
     this.endScreenClick = true;
-    this.sds.newGame();
+    this.sds.createGame();
     this.sds.resetStack();
+    this.sds.getOldIdFromRoute();
     //this.sds.deleteGame();
   }
 
   backToMenu() {
     this.endScreenClick = true;
+    this.sds.getOldIdFromRoute();
     this.sds.deleteGame();
     this.router.navigateByUrl('/');
     this.dialogRef.close();

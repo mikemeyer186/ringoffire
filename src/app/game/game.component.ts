@@ -33,16 +33,18 @@ export class GameComponent implements OnInit {
   }
 
   checkPlayer() {
-    if (this.sds.gameObject.players.length == 0) {
-      this.openDialog();
-    }
+    setTimeout(() => {
+      if (this.sds.gameObject.players.length == 0) {
+        this.openDialog();
+      }
+    }, 1000);
   }
 
   takeCard() {
     this.sds.gameObject.pickCardAnimation = true;
     this.popLastCard();
     this.setCurrentPlayer();
-    this.sds.gameUpdate();
+    this.sds.updateGame();
     this.checkCardStack();
   }
 
@@ -96,7 +98,7 @@ export class GameComponent implements OnInit {
     dialogRef.afterClosed().subscribe((name: string) => {
       if (name) {
         this.sds.gameObject.players.push(name);
-        this.sds.gameUpdate();
+        this.sds.updateGame();
       }
     });
   }
