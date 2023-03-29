@@ -38,9 +38,21 @@ export class StoreDataService {
   }
 
   /**
-   * fetching all games as a list from firestore
+   * fetching all games from firestore
+   * @returns
    */
-  fetchGames() {
+  async fetchGames() {
+    /* this.fireStore
+      .collection('games')
+      .get()
+      .subscribe((data) => {
+        data.docs.forEach(async (doc) => {
+          const id = doc.id;
+          const data = (await doc.data()) as Game;
+          return { id, data };
+        });
+      });
+ */
     this.fireStore
       .collection('games')
       .snapshotChanges()
@@ -57,13 +69,13 @@ export class StoreDataService {
    * loading a game from firestore
    * @returns
    */
-  loadGame() {
-    return this.fireStore
+  async loadGame() {
+    this.fireStore
       .collection('games')
       .doc(this.gameID)
       .valueChanges()
-      .subscribe((game) => {
-        this.gameObject = game as Game;
+      .subscribe(async (game) => {
+        return (this.gameObject = (await game) as Game);
       });
   }
 

@@ -29,7 +29,7 @@ export class GameComponent implements OnInit {
 
     setTimeout(() => {
       this.checkCardStack();
-    }, 1000);
+    }, 500);
   }
 
   checkPlayer() {
@@ -37,7 +37,7 @@ export class GameComponent implements OnInit {
       if (this.sds.gameObject.players.length == 0) {
         this.openDialog();
       }
-    }, 1000);
+    }, 500);
   }
 
   takeCard() {
