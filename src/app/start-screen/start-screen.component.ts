@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LoadDialogComponent } from '../load-dialog/load-dialog.component';
 import { StoreDataService } from '../store-data.service';
@@ -7,8 +7,12 @@ import { StoreDataService } from '../store-data.service';
   templateUrl: './start-screen.component.html',
   styleUrls: ['./start-screen.component.scss'],
 })
-export class StartScreenComponent {
+export class StartScreenComponent implements OnInit {
   constructor(public sds: StoreDataService, public dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    this.sds.fetchGames();
+  }
 
   openLoadDialog(): void {
     this.dialog.open(LoadDialogComponent);

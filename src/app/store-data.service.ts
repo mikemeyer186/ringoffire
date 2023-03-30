@@ -3,6 +3,7 @@ import { Game } from 'src/models/game';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
+import { doc } from '@firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -42,27 +43,14 @@ export class StoreDataService {
    * @returns
    */
   async fetchGames() {
-    /* this.fireStore
-      .collection('games')
-      .get()
-      .subscribe((data) => {
-        data.docs.forEach(async (doc) => {
-          const id = doc.id;
-          const data = (await doc.data()) as Game;
-          return { id, data };
-        });
+    const games$ = this.fireStore.collection('games').snapshotChanges();
+    games$.subscribe((games) => {
+      this.gameList = games.map((game) => {
+        const id = game.payload.doc.id;
+        const data = game.payload.doc.data() as Game;
+        return { id, ...data };
       });
- */
-    this.fireStore
-      .collection('games')
-      .snapshotChanges()
-      .subscribe((data) => {
-        this.gameList = data.map((games) => {
-          const id = games.payload.doc.id;
-          const data = games.payload.doc.data() as Game;
-          return { id, ...data };
-        });
-      });
+    });
   }
 
   /**
