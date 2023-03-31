@@ -4,7 +4,7 @@ export class Game {
   public playedCards: string[] = [];
   public currentPlayer: number = 1;
   public gameDate: Date = new Date();
-  public pickCardAnimation: any = false;
+  public pickCardAnimation: Boolean = false;
   public currentCard: string | undefined = '';
 
   constructor() {
