@@ -1,27 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Game } from 'src/models/game';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
-import { doc } from '@firebase/firestore';
+import {
+  Firestore,
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  docData,
+  getDocs,
+  setDoc,
+} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StoreDataService {
-  gameList: any = [];
-  gameID: string = '';
-  gameObject: Game = new Game();
-  oldGameID: string = '';
-  cardStack: number[] = [0, 1, 2, 3, 4];
-  noCards: Boolean = false;
-  noTakeCard: Boolean = false;
-  offset: number = 25;
+  public gameList: any = [];
+  public gameID: string = '';
+  public gameObject: Game = new Game();
+  public cardStack: number[] = [0, 1, 2, 3, 4];
+  public noCards: Boolean = false;
+  public noTakeCard: Boolean = false;
+  public offset: number = 25;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private fireStore: AngularFirestore
+    private firestore: Firestore
   ) {}
 
   /**
@@ -29,12 +35,14 @@ export class StoreDataService {
    * @returns
    */
   async createGame() {
-    const game: Game = new Game();
-    return await this.fireStore
-      .collection('games')
-      .add(game.toJson())
-      .then((g) => {
-        this.router.navigateByUrl(`/game/${g.id}`);
+    debugger;
+    const newGame: Game = new Game();
+    await addDoc(collection(this.firestore, 'games'), newGame.toJson())
+      .then((game) => {
+        this.router.navigateByUrl('/game/' + game.id);
+      })
+      .then(() => {
+        this.gameObject = newGame;
       });
   }
 
@@ -43,13 +51,11 @@ export class StoreDataService {
    * @returns
    */
   async fetchGames() {
-    const games$ = this.fireStore.collection('games').snapshotChanges();
-    games$.subscribe((games) => {
-      this.gameList = games.map((game) => {
-        const id = game.payload.doc.id;
-        const data = game.payload.doc.data() as Game;
-        return { id, ...data };
-      });
+    const querySnapshot = await getDocs(collection(this.firestore, 'games'));
+    this.gameList = querySnapshot.docs.map((game) => {
+      const id = game.id;
+      const data = game.data() as Game;
+      return { id, ...data };
     });
   }
 
@@ -57,25 +63,21 @@ export class StoreDataService {
    * loading a game from firestore
    * @returns
    */
-  async loadGame() {
-    this.fireStore
-      .collection('games')
-      .doc(this.gameID)
-      .valueChanges()
-      .subscribe(async (game) => {
-        return (this.gameObject = (await game) as Game);
-      });
+  loadGame() {
+    this.gameObject = new Game();
+    const docRef = doc(this.firestore, `games/${this.gameID}`);
+    docData(docRef).subscribe((game: any) => {
+      this.gameObject = game as Game;
+    });
   }
 
   /**
    * updating a game in firestore
    * @returns
    */
-  updateGame() {
-    return this.fireStore
-      .collection('games')
-      .doc(this.gameID)
-      .update(this.gameObject);
+  async updateGame() {
+    const docRef = doc(this.firestore, `games/${this.gameID}`);
+    await setDoc(docRef, JSON.parse(JSON.stringify(this.gameObject)));
   }
 
   /**
@@ -83,7 +85,8 @@ export class StoreDataService {
    * @returns
    */
   deleteGame() {
-    return this.fireStore.collection('games').doc(this.oldGameID).delete();
+    const docRef = doc(this.firestore, `games/${this.gameID}`);
+    deleteDoc(docRef);
   }
 
   /**
@@ -92,15 +95,6 @@ export class StoreDataService {
   getGameIdFromRoute() {
     this.route.firstChild?.params.subscribe((params: any) => {
       this.gameID = params['id'];
-    });
-  }
-
-  /**
-   * getting old gameID from url params
-   */
-  getOldIdFromRoute() {
-    this.route.firstChild?.params.subscribe((params: any) => {
-      this.oldGameID = params['id'];
     });
   }
 
