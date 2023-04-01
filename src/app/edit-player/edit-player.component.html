@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Edit player</h1>
+<div mat-dialog-content>
+    <p>Change name of the player</p>
+    <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="name" maxlength="10">
+    </mat-form-field>
+    <p>Choose image of the player</p>
+    <div class="profil-box">
+        <img *ngFor="let image of playerImages" src="/assets/img/{{ image }}" class="profil-image">
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Close</button>
+    <button mat-button [disabled]="name.length == 0" [mat-dialog-close]="name">Save Changes</button>
+</div>

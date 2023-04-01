@@ -66,7 +66,6 @@ export class StoreDataService {
     const docRef = doc(this.firestore, 'games', this.gameID);
     const docSnap = await getDoc(docRef);
     this.gameobject = docSnap.data() as Game;
-    console.log(docSnap.id, this.gameobject);
   }
 
   /**
