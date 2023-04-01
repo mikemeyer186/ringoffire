@@ -7,10 +7,11 @@ import {
   collection,
   deleteDoc,
   doc,
-  docData,
+  getDoc,
   getDocs,
   setDoc,
 } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,8 @@ import {
 export class StoreDataService {
   public gameList: any = [];
   public gameID: string = '';
-  public gameObject: Game = new Game();
+  public oldGameID: string = '';
+  public gameobject: Game = new Game();
   public cardStack: number[] = [0, 1, 2, 3, 4];
   public noCards: Boolean = false;
   public noTakeCard: Boolean = false;
@@ -35,15 +37,13 @@ export class StoreDataService {
    * @returns
    */
   async createGame() {
-    debugger;
     const newGame: Game = new Game();
-    await addDoc(collection(this.firestore, 'games'), newGame.toJson())
-      .then((game) => {
-        this.router.navigateByUrl('/game/' + game.id);
-      })
-      .then(() => {
-        this.gameObject = newGame;
-      });
+    await addDoc(collection(this.firestore, 'games'), newGame.toJson()).then(
+      (game) => {
+        this.gameobject = newGame as Game;
+        this.router.navigateByUrl(`/game/${game.id}`);
+      }
+    );
   }
 
   /**
@@ -63,12 +63,12 @@ export class StoreDataService {
    * loading a game from firestore
    * @returns
    */
-  loadGame() {
-    this.gameObject = new Game();
-    const docRef = doc(this.firestore, `games/${this.gameID}`);
-    docData(docRef).subscribe((game: any) => {
-      this.gameObject = game as Game;
-    });
+  async loadGame() {
+    this.gameobject = new Game();
+    const docRef = doc(this.firestore, 'games', this.gameID);
+    const docSnap = await getDoc(docRef);
+    this.gameobject = docSnap.data() as Game;
+    console.log(docSnap.id, this.gameobject);
   }
 
   /**
@@ -77,15 +77,15 @@ export class StoreDataService {
    */
   async updateGame() {
     const docRef = doc(this.firestore, `games/${this.gameID}`);
-    await setDoc(docRef, JSON.parse(JSON.stringify(this.gameObject)));
+    await setDoc(docRef, JSON.parse(JSON.stringify(this.gameobject)));
   }
 
   /**
    * deleting a game from firestore
    * @returns
    */
-  deleteGame() {
-    const docRef = doc(this.firestore, `games/${this.gameID}`);
+  deleteGame(id: string) {
+    const docRef = doc(this.firestore, `games/${id}`);
     deleteDoc(docRef);
   }
 
@@ -106,6 +106,6 @@ export class StoreDataService {
     this.noTakeCard = false;
     this.cardStack = [0, 1, 2, 3, 4];
     this.offset = 25;
-    this.gameObject.pickCardAnimation = false;
+    this.gameobject.pickCardAnimation = false;
   }
 }

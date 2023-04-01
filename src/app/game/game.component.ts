@@ -1,24 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDialogComponent } from '../add-dialog/add-dialog.component';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { EndDialogComponent } from '../end-dialog/end-dialog.component';
 import { StoreDataService } from '../store-data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnDestroy {
+  routerEvent: Subscription;
+
   constructor(
     public dialog: MatDialog,
     private router: Router,
     public sds: StoreDataService
-  ) {}
+  ) {
+    this.routerEvent = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd && !(this.router.url == '/')) {
+        this.setGame();
+      }
+    });
+  }
 
-  ngOnInit(): void {
-    this.setGame();
+  ngOnDestroy(): void {
+    this.routerEvent.unsubscribe();
   }
 
   setGame() {
@@ -34,14 +43,14 @@ export class GameComponent implements OnInit {
 
   checkPlayer() {
     setTimeout(() => {
-      if (this.sds.gameObject.players.length == 0) {
+      if (this.sds.gameobject.players.length == 0) {
         this.openDialog();
       }
     }, 1000);
   }
 
   takeCard() {
-    this.sds.gameObject.pickCardAnimation = true;
+    this.sds.gameobject.pickCardAnimation = true;
     this.popLastCard();
     this.setCurrentPlayer();
     this.sds.updateGame();
@@ -49,7 +58,7 @@ export class GameComponent implements OnInit {
   }
 
   checkCardStack() {
-    let stackLength = this.sds.gameObject.stack.length;
+    let stackLength = this.sds.gameobject.stack.length;
     if (stackLength < 20 && stackLength >= 15) {
       this.sds.cardStack = [0, 1, 2, 3];
       this.sds.offset = 20;
@@ -73,22 +82,22 @@ export class GameComponent implements OnInit {
 
   setCurrentPlayer() {
     if (
-      this.sds.gameObject.currentPlayer == this.sds.gameObject.players.length
+      this.sds.gameobject.currentPlayer == this.sds.gameobject.players.length
     ) {
-      this.sds.gameObject.currentPlayer = 1;
+      this.sds.gameobject.currentPlayer = 1;
     } else {
-      this.sds.gameObject.currentPlayer++;
+      this.sds.gameobject.currentPlayer++;
     }
   }
 
   popLastCard() {
-    this.sds.gameObject.currentCard = this.sds.gameObject.stack.pop();
+    this.sds.gameobject.currentCard = this.sds.gameobject.stack.pop();
     this.pushPlayedCard();
   }
 
   pushPlayedCard() {
-    if (this.sds.gameObject.currentCard != undefined) {
-      this.sds.gameObject.playedCards.push(this.sds.gameObject.currentCard);
+    if (this.sds.gameobject.currentCard != undefined) {
+      this.sds.gameobject.playedCards.push(this.sds.gameobject.currentCard);
     }
   }
 
@@ -97,7 +106,7 @@ export class GameComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((name: string) => {
       if (name) {
-        this.sds.gameObject.players.push(name);
+        this.sds.gameobject.players.push(name);
         this.sds.updateGame();
       }
     });

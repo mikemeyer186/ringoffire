@@ -18,6 +18,7 @@ export class LoadDialogComponent implements OnInit {
   }
 
   loadGameList() {
+    this.sds.fetchGames();
     this.checkGameList();
   }
 
