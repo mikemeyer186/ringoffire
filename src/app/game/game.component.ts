@@ -38,6 +38,7 @@ export class GameComponent implements OnDestroy {
 
     setTimeout(() => {
       this.checkCardStack();
+      this.sds.updateFromDatabase();
     }, 1000);
   }
 

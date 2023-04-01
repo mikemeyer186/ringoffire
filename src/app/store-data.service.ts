@@ -9,6 +9,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  onSnapshot,
   setDoc,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -34,7 +35,6 @@ export class StoreDataService {
 
   /**
    * creating a new game and redirecting to game url
-   * @returns
    */
   async createGame() {
     const newGame: Game = new Game();
@@ -48,7 +48,6 @@ export class StoreDataService {
 
   /**
    * fetching all games from firestore
-   * @returns
    */
   async fetchGames() {
     const querySnapshot = await getDocs(collection(this.firestore, 'games'));
@@ -61,7 +60,6 @@ export class StoreDataService {
 
   /**
    * loading a game from firestore
-   * @returns
    */
   async loadGame() {
     this.gameobject = new Game();
@@ -72,8 +70,19 @@ export class StoreDataService {
   }
 
   /**
+   * getting real-time updates of game from firestore
+   */
+  updateFromDatabase() {
+    const docRef = doc(this.firestore, 'games', this.gameID);
+    onSnapshot(docRef, (game) => {
+      if (game.exists()) {
+        this.gameobject = game.data() as Game;
+      }
+    });
+  }
+
+  /**
    * updating a game in firestore
-   * @returns
    */
   async updateGame() {
     const docRef = doc(this.firestore, `games/${this.gameID}`);
@@ -82,7 +91,6 @@ export class StoreDataService {
 
   /**
    * deleting a game from firestore
-   * @returns
    */
   deleteGame(id: string) {
     const docRef = doc(this.firestore, `games/${id}`);
