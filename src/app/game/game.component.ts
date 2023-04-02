@@ -83,7 +83,8 @@ export class GameComponent implements OnDestroy {
 
   setCurrentPlayer() {
     if (
-      this.sds.gameobject.currentPlayer == this.sds.gameobject.players.length
+      this.sds.gameobject.currentPlayer == this.sds.gameobject.players.length ||
+      this.sds.gameobject.players.length == 0
     ) {
       this.sds.gameobject.currentPlayer = 1;
     } else {

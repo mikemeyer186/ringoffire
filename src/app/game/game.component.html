@@ -1,13 +1,22 @@
 <div class="game-field">
     <div class="card-stack">
+
+        <!-- card stack with cover -->
         <img *ngFor="let c of sds.cardStack; let i = index;" [ngStyle]="{'right.px': i * 5}" class="card-cover"
             [class.noCards]="sds.noCards" src="assets/img/cards/cover_red.png" alt="Card Stack">
+
+        <!-- card on top of card stack to play next -->
         <img (click)="takeCard()" [class.noCards]="sds.noTakeCard" [ngStyle]="{'right.px': sds.offset}"
             class="card-cover card-top" src="assets/img/cards/cover_red.png" alt="Card Stack">
+
+        <!-- current played card -->
         <img *ngIf="sds.gameobject.pickCardAnimation" class="card-cover pick-card"
             src="assets/img/cards/{{ sds.gameobject.currentCard }}.png" alt="Card Stack">
+
+        <!-- card stack with played cards -->
         <img *ngFor="let card of sds.gameobject.playedCards; let i = index;" [ngStyle]="{'right.px': i * 5}"
             class="card-cover played-card" src="assets/img/cards/{{ card }}.png" alt="Card Stack">
+
     </div>
 </div>
 
@@ -24,3 +33,6 @@
 <button (click)="backToMenu()" class="button-menu" mat-fab color="warn" title="Back to menu">
     <mat-icon>home</mat-icon>
 </button>
+
+<img class="preloadedImage" src="../../assets/img/cards/{{ sds.gameobject.stack[sds.gameobject.stack.length -1] }}.png"
+    alt="">
