@@ -7,10 +7,13 @@
     </mat-form-field>
     <p>Choose image of the player</p>
     <div class="profil-box">
-        <img *ngFor="let image of playerImages" src="/assets/img/{{ image }}" class="profil-image">
+        <img *ngFor="let image of playerImages" (click)="changeImage(image)" src="/assets/img/{{ image }}"
+            class="profil-image" [class.activeProfilImage]="currentImage == image">
     </div>
 </div>
-<div mat-dialog-actions>
+<div id="button-box" mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Close</button>
-    <button mat-button [disabled]="name.length == 0" [mat-dialog-close]="name">Save Changes</button>
+    <button mat-button [disabled]="name.length == 0"
+        [mat-dialog-close]="{name: name, image: currentImage}">Save</button>
+    <button mat-button (click)="deletePlayer()" color="warn">Delete</button>
 </div>

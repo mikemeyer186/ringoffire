@@ -12,7 +12,6 @@ import {
   onSnapshot,
   setDoc,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +25,7 @@ export class StoreDataService {
   public noCards: Boolean = false;
   public noTakeCard: Boolean = false;
   public offset: number = 25;
+  public editPlayerID: number = 0;
 
   constructor(
     private router: Router,

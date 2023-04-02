@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPlayerComponent } from '../edit-player/edit-player.component';
+import { StoreDataService } from '../store-data.service';
 
 @Component({
   selector: 'app-player-list',
@@ -10,12 +11,20 @@ import { EditPlayerComponent } from '../edit-player/edit-player.component';
 export class PlayerListComponent {
   @Input() players!: string[];
   @Input() activePlayer!: number;
+  @Input() playerImages!: string[];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, public sds: StoreDataService) {}
 
   editPlayer(playerID: number): void {
-    const dialogRef = this.dialog.open(EditPlayerComponent);
+    this.sds.editPlayerID = playerID;
 
-    dialogRef.afterClosed().subscribe((change: string) => {});
+    const dialogRef = this.dialog.open(EditPlayerComponent);
+    dialogRef.afterClosed().subscribe((change: any) => {
+      if (change) {
+        this.sds.gameobject.players[playerID] = change.name;
+        this.sds.gameobject.playerImages[playerID] = change.image;
+        this.sds.updateGame();
+      }
+    });
   }
 }

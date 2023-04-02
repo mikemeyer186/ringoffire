@@ -2,17 +2,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 
   .profil-image {
-    width: 50px;
+    width: 40px;
+    height: 40px;
     object-fit: cover;
     border-radius: 100%;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: rgba(252, 248, 248, 1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: all 175ms ease-in-out;
     &:hover {
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
+  }
+
+  .activeProfilImage {
+    box-shadow: 0 0 10px rgba(86, 130, 188, 0.7);
+  }
+
+  #button-box {
+    display: flex !important;
+    justify-content: center !important;
   }
 }

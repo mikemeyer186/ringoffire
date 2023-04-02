@@ -108,6 +108,7 @@ export class GameComponent implements OnDestroy {
     dialogRef.afterClosed().subscribe((name: string) => {
       if (name) {
         this.sds.gameobject.players.push(name);
+        this.sds.gameobject.playerImages.push('profile.png');
         this.sds.updateGame();
       }
     });
