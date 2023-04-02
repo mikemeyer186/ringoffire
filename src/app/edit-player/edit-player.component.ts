@@ -12,10 +12,10 @@ export class EditPlayerComponent {
   currentImage: string =
     this.sds.gameobject.playerImages[this.sds.editPlayerID];
   playerImages = [
-    'profil_f.png',
-    'profil_m.png',
-    'profil_panda.png',
-    'profil_cat.jpg',
+    'profil_f2.png',
+    'profil_f3.png',
+    'profil_m3.png',
+    'profil_m2.png',
   ];
 
   constructor(
