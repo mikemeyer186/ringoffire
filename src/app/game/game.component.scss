@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 .card-stack {
   position: relative;
@@ -54,16 +55,32 @@
   right: 0;
 }
 
+.player-list-mobile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  overflow-y: auto;
+}
+
 .button-add-player {
   position: absolute;
   bottom: 22px;
   right: 20px;
+
+  @media (max-width: 600px) {
+    bottom: 160px;
+  }
 }
 
 .button-menu {
   position: absolute;
   bottom: 22px;
   left: 20px;
+
+  @media (max-width: 600px) {
+    bottom: 160px;
+  }
 }
 
 .task-box {
@@ -71,6 +88,13 @@
   bottom: 15px;
   left: 100px;
   right: 100px;
+
+  @media (max-width: 600px) {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-height: 150px;
+  }
 }
 
 @keyframes pick-card-animation {

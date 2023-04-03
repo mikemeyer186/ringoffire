@@ -1,0 +1,7 @@
+<div class="player-list">
+    <div *ngFor="let player of players; let i = index;" (click)="editPlayer(i)" class="player"
+        [class.active]="i + 1 == activePlayer">
+        <img src="assets/img/profile/{{ playerImages[i] }}" alt="Player">
+        <span>{{ player }}</span>
+    </div>
+</div>

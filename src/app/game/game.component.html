@@ -20,8 +20,11 @@
     </div>
 </div>
 
-<app-player-list class="player-list" [players]="sds.gameobject.players" [activePlayer]="sds.gameobject.currentPlayer"
-    [playerImages]="sds.gameobject.playerImages"></app-player-list>
+<app-player-list class="player-list hide-desktop" [players]="sds.gameobject.players"
+    [activePlayer]="sds.gameobject.currentPlayer" [playerImages]="sds.gameobject.playerImages"></app-player-list>
+
+<app-player-mobile class="player-list-mobile hide-mobile" [players]="sds.gameobject.players"
+    [activePlayer]="sds.gameobject.currentPlayer" [playerImages]="sds.gameobject.playerImages"></app-player-mobile>
 
 <app-task-box class="task-box" [card]="sds.gameobject.currentCard"></app-task-box>
 
