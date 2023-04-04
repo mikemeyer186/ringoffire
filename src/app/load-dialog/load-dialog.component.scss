@@ -1,6 +1,10 @@
 .load-dialog {
   padding: 30px;
 
+  @media (max-width: 500px) {
+    padding: 10px;
+  }
+
   .load-game-row {
     transition: all 125ms ease-in-out;
     cursor: pointer;
@@ -17,6 +21,14 @@
 
   th {
     padding: 5px 20px 5px 20px;
+  }
+
+  @media (max-width: 420px) {
+    td,
+    th {
+      padding: 5px 5px 5px 5px;
+      font-size: 12px !important;
+    }
   }
 }
 

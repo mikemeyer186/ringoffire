@@ -6,13 +6,13 @@
         <tr>
             <th>No.</th>
             <th>Start date</th>
-            <th>Game ID</th>
+            <th class="game-id">Game ID</th>
         </tr>
         <tr *ngFor="let game of sds.gameList; let i = index;" (click)="loadGame(game.id)"
             [mat-dialog-close]="loadedGame" class="load-game-row">
             <td>{{ i + 1 }}</td>
             <td>{{ game.gameDate }}</td>
-            <td>{{ game.id }}</td>
+            <td class="game-id">{{ game.id }}</td>
         </tr>
     </table>
     <div *ngIf="noGames" class="no-games-info">No active games available</div>

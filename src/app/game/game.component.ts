@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddDialogComponent } from '../add-dialog/add-dialog.component';
 import { NavigationEnd, Router } from '@angular/router';
 import { EndDialogComponent } from '../end-dialog/end-dialog.component';
@@ -120,6 +120,10 @@ export class GameComponent implements OnDestroy {
   }
 
   endScreenDialog(): void {
-    this.dialog.open(EndDialogComponent);
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+
+    this.dialog.open(EndDialogComponent, dialogConfig);
   }
 }
