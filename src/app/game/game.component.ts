@@ -1,10 +1,11 @@
 import { Component, OnDestroy } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { AddDialogComponent } from '../add-dialog/add-dialog.component';
 import { NavigationEnd, Router } from '@angular/router';
 import { EndDialogComponent } from '../end-dialog/end-dialog.component';
 import { StoreDataService } from '../store-data.service';
 import { Subscription } from 'rxjs';
+import { Overlay } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-game',
@@ -17,7 +18,8 @@ export class GameComponent implements OnDestroy {
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    public sds: StoreDataService
+    public sds: StoreDataService,
+    public overlay: Overlay
   ) {
     this.routerEvent = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd && !(this.router.url == '/')) {
@@ -104,9 +106,12 @@ export class GameComponent implements OnDestroy {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(AddDialogComponent);
+    const addDialog = this.dialog.open(AddDialogComponent, {
+      maxWidth: '100vw',
+      scrollStrategy: this.overlay.scrollStrategies.noop(),
+    });
 
-    dialogRef.afterClosed().subscribe((name: string) => {
+    addDialog.afterClosed().subscribe((name: string) => {
       if (name) {
         this.sds.gameobject.players.push(name);
         this.sds.gameobject.playerImages.push('profile.png');
@@ -120,10 +125,8 @@ export class GameComponent implements OnDestroy {
   }
 
   endScreenDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-
-    this.dialog.open(EndDialogComponent, dialogConfig);
+    this.dialog.open(EndDialogComponent, {
+      disableClose: true,
+    });
   }
 }

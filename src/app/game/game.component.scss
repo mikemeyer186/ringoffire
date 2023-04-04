@@ -17,6 +17,18 @@
   height: 200px;
   object-fit: cover;
   position: absolute;
+
+  @media (max-height: 800px) {
+    transform: scale(0.9);
+  }
+
+  @media (max-height: 700px) {
+    transform: scale(0.8);
+  }
+
+  @media (max-height: 600px) {
+    transform: scale(0.7);
+  }
 }
 
 .card-top {
@@ -26,17 +38,50 @@
   &:hover {
     transform: translateY(-20px);
   }
+  @media (max-height: 800px) {
+    transform: scale(0.9) !important;
+  }
+
+  @media (max-height: 700px) {
+    transform: scale(0.8) !important;
+  }
+
+  @media (max-height: 600px) {
+    transform: scale(0.7) !important;
+  }
 }
 
 .played-card {
   right: 50px !important;
   animation: pick-card-animation 1s ease-in-out;
   transform: translate(200px, -200px) scale(1) rotate(-35deg);
+  @media (max-height: 800px) {
+    transform: scale(0.9) translate(200px, -200px) rotate(-35deg);
+  }
+
+  @media (max-height: 700px) {
+    transform: scale(0.8) translate(200px, -200px) rotate(-35deg);
+  }
+
+  @media (max-height: 600px) {
+    transform: scale(0.7) translate(200px, -200px) rotate(-35deg);
+  }
 }
 
 .pick-card {
   animation: pick-card-animation 1s ease-in-out;
   transform: translate(200px, -200px) scale(1) rotate(-35deg);
+  @media (max-height: 800px) {
+    transform: scale(0.9) translate(200px, -200px) rotate(-35deg);
+  }
+
+  @media (max-height: 700px) {
+    transform: scale(0.8) translate(200px, -200px) rotate(-35deg);
+  }
+
+  @media (max-height: 600px) {
+    transform: scale(0.7) translate(200px, -200px) rotate(-35deg);
+  }
 }
 
 .preloadedImage {

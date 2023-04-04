@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { LoadDialogComponent } from '../load-dialog/load-dialog.component';
 import { StoreDataService } from '../store-data.service';
 @Component({
@@ -15,10 +15,8 @@ export class StartScreenComponent implements OnInit {
   }
 
   openLoadDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.maxWidth = '100vw';
-
-    this.dialog.open(LoadDialogComponent, dialogConfig);
+    this.dialog.open(LoadDialogComponent, {
+      maxWidth: '100vw',
+    });
   }
 }

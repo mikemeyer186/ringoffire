@@ -11,9 +11,11 @@
             class="profil-image" [class.activeProfilImage]="currentImage == image">
     </div>
 </div>
-<div id="button-box" mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Close</button>
-    <button mat-button [disabled]="name.length == 0"
-        [mat-dialog-close]="{name: name, image: currentImage}">Save</button>
-    <button mat-button (click)="deletePlayer()" color="warn">Delete</button>
+<div mat-dialog-actions>
+    <div class="button-box">
+        <button mat-button (click)="onNoClick()">Close</button>
+        <button mat-button [disabled]="name.length == 0"
+            [mat-dialog-close]="{name: name, image: currentImage}">Save</button>
+        <button mat-button (click)="deletePlayer()" color="warn">Delete</button>
+    </div>
 </div>
