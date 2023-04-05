@@ -12,6 +12,7 @@ import {
   onSnapshot,
   setDoc,
 } from '@angular/fire/firestore';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,7 @@ export class StoreDataService {
   public noTakeCard: Boolean = false;
   public offset: number = 25;
   public editPlayerID: number = 0;
+  public gameUpdate$ = new Subject();
 
   constructor(
     private router: Router,
@@ -76,6 +78,7 @@ export class StoreDataService {
     onSnapshot(docRef, (game) => {
       if (game.exists()) {
         this.gameobject = game.data() as Game;
+        this.gameUpdate$.next(this.gameobject.stack.length);
       }
     });
   }

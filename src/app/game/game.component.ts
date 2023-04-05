@@ -37,9 +37,9 @@ export class GameComponent implements OnDestroy {
     this.sds.loadGame();
     this.sds.resetStack();
     this.checkPlayer();
+    this.checkUpdate();
 
     setTimeout(() => {
-      this.checkCardStack();
       this.sds.updateFromDatabase();
     }, 1000);
   }
@@ -50,6 +50,13 @@ export class GameComponent implements OnDestroy {
         this.openDialog();
       }
     }, 1000);
+  }
+
+  checkUpdate() {
+    this.sds.gameUpdate$.subscribe((update: any) => {
+      console.log(update, this.sds.gameobject.stack.length);
+      this.checkCardStack();
+    });
   }
 
   takeCard() {
@@ -128,6 +135,7 @@ export class GameComponent implements OnDestroy {
     this.dialog.open(EndDialogComponent, {
       disableClose: true,
       maxWidth: '100vw',
+      scrollStrategy: this.overlay.scrollStrategies.noop(),
     });
   }
 }
