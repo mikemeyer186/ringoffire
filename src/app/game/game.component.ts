@@ -127,6 +127,7 @@ export class GameComponent implements OnDestroy {
   endScreenDialog(): void {
     this.dialog.open(EndDialogComponent, {
       disableClose: true,
+      maxWidth: '100vw',
     });
   }
 }
