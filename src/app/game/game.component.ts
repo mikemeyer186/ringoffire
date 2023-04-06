@@ -4,7 +4,7 @@ import { AddDialogComponent } from '../add-dialog/add-dialog.component';
 import { NavigationEnd, Router } from '@angular/router';
 import { EndDialogComponent } from '../end-dialog/end-dialog.component';
 import { StoreDataService } from '../store-data.service';
-import { Subscription } from 'rxjs';
+import { Subscription, map, throttleTime } from 'rxjs';
 import { Overlay } from '@angular/cdk/overlay';
 
 @Component({
@@ -14,6 +14,8 @@ import { Overlay } from '@angular/cdk/overlay';
 })
 export class GameComponent implements OnDestroy {
   routerEvent: Subscription;
+  updateEvent!: Subscription;
+  endDialog: any = '';
 
   constructor(
     public dialog: MatDialog,
@@ -24,12 +26,14 @@ export class GameComponent implements OnDestroy {
     this.routerEvent = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd && !(this.router.url == '/')) {
         this.setGame();
+        this.checkUpdate();
       }
     });
   }
 
   ngOnDestroy(): void {
     this.routerEvent.unsubscribe();
+    this.updateEvent.unsubscribe();
   }
 
   setGame() {
@@ -37,7 +41,6 @@ export class GameComponent implements OnDestroy {
     this.sds.loadGame();
     this.sds.resetStack();
     this.checkPlayer();
-    this.checkUpdate();
 
     setTimeout(() => {
       this.sds.updateFromDatabase();
@@ -53,10 +56,14 @@ export class GameComponent implements OnDestroy {
   }
 
   checkUpdate() {
-    this.sds.gameUpdate$.subscribe((update: any) => {
-      console.log(update, this.sds.gameobject.stack.length);
-      this.checkCardStack();
-    });
+    this.updateEvent = this.sds.gameUpdate$
+      .pipe(
+        throttleTime(500),
+        map(() => 'update')
+      )
+      .subscribe((update: any) => {
+        this.checkCardStack();
+      });
   }
 
   takeCard() {
@@ -115,7 +122,6 @@ export class GameComponent implements OnDestroy {
   openDialog(): void {
     const addDialog = this.dialog.open(AddDialogComponent, {
       maxWidth: '100vw',
-      scrollStrategy: this.overlay.scrollStrategies.noop(),
     });
 
     addDialog.afterClosed().subscribe((name: string) => {
@@ -132,10 +138,12 @@ export class GameComponent implements OnDestroy {
   }
 
   endScreenDialog(): void {
-    this.dialog.open(EndDialogComponent, {
-      disableClose: true,
-      maxWidth: '100vw',
-      scrollStrategy: this.overlay.scrollStrategies.noop(),
-    });
+    if (!this.endDialog) {
+      this.endDialog = this.dialog.open(EndDialogComponent, {
+        disableClose: true,
+        maxWidth: '100vw',
+        scrollStrategy: this.overlay.scrollStrategies.noop(),
+      });
+    }
   }
 }

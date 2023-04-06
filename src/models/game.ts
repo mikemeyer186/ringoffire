@@ -9,6 +9,10 @@ export class Game {
   public currentCard: string | undefined = '';
 
   constructor() {
+    this.createStack();
+  }
+
+  public createStack() {
     for (let i = 1; i < 14; i++) {
       this.stack.push('s' + i);
       this.stack.push('h' + i);

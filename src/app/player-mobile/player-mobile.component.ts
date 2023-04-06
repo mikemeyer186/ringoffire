@@ -25,7 +25,6 @@ export class PlayerMobileComponent {
 
     const editDialog = this.dialog.open(EditPlayerComponent, {
       maxWidth: '100vw',
-      scrollStrategy: this.overlay.scrollStrategies.noop(),
     });
 
     editDialog.afterClosed().subscribe((change: any) => {

@@ -10,6 +10,7 @@ import { StoreDataService } from '../store-data.service';
 })
 export class EndDialogComponent implements OnInit {
   endScreenClick: Boolean = false;
+  newStack: string[] = [];
 
   constructor(
     private router: Router,
@@ -23,9 +24,11 @@ export class EndDialogComponent implements OnInit {
 
   newGame() {
     this.endScreenClick = true;
-    this.sds.createGame();
+    this.sds.gameobject.currentCard = '';
+    this.sds.gameobject.playedCards = [];
+    this.createNewStack();
     this.sds.resetStack();
-    this.deleteOldGame();
+    this.sds.updateGame();
   }
 
   deleteOldGame() {
@@ -38,5 +41,30 @@ export class EndDialogComponent implements OnInit {
     this.endScreenClick = true;
     this.sds.deleteGame(this.sds.oldGameID);
     this.router.navigateByUrl('/');
+  }
+
+  public createNewStack() {
+    for (let i = 1; i < 14; i++) {
+      this.sds.gameobject.stack.push('s' + i);
+      this.sds.gameobject.stack.push('h' + i);
+      this.sds.gameobject.stack.push('c' + i);
+      this.sds.gameobject.stack.push('d' + i);
+    }
+
+    this.randomize(this.sds.gameobject.stack);
+  }
+
+  randomize(array: string[]) {
+    let index = array.length,
+      randomIndex;
+
+    while (index != 0) {
+      randomIndex = Math.floor(Math.random() * index);
+      index--;
+
+      [array[index], array[randomIndex]] = [array[randomIndex], array[index]];
+    }
+
+    return array;
   }
 }

@@ -12,7 +12,7 @@ import {
   onSnapshot,
   setDoc,
 } from '@angular/fire/firestore';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
