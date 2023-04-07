@@ -90,6 +90,7 @@ export class GameComponent implements OnDestroy {
       this.sds.offset = 5;
     } else if (stackLength == 1) {
       this.sds.noCards = true;
+      this.endDialog = '';
     } else if (stackLength == 0) {
       this.sds.noCards = true;
       this.sds.noTakeCard = true;
@@ -142,7 +143,6 @@ export class GameComponent implements OnDestroy {
       this.endDialog = this.dialog.open(EndDialogComponent, {
         disableClose: true,
         maxWidth: '100vw',
-        scrollStrategy: this.overlay.scrollStrategies.noop(),
       });
     }
   }
