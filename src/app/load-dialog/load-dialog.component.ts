@@ -17,17 +17,27 @@ export class LoadDialogComponent implements OnInit {
     this.loadGameList();
   }
 
+  /**
+   * loading all games from firebase as a list
+   */
   loadGameList() {
     this.sds.fetchGames();
     this.checkGameList();
   }
 
+  /**
+   * checking if games list = 0, then sets "noGames" for showing info in load dialog
+   */
   checkGameList() {
     if (this.sds.gameList.length == 0) {
       this.noGames = true;
     }
   }
 
+  /**
+   * loading existing game with id
+   * @param id - id of game
+   */
   loadGame(id: string) {
     this.loadedGame = true;
     this.router.navigateByUrl(`/game/${id}`);

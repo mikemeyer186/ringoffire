@@ -14,6 +14,9 @@ export class StartScreenComponent implements OnInit {
     this.sds.fetchGames();
   }
 
+  /**
+   * opening laod game dialog
+   */
   openLoadDialog(): void {
     this.dialog.open(LoadDialogComponent, {
       maxWidth: '100vw',

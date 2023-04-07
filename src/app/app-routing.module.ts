@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EndDialogComponent } from './end-dialog/end-dialog.component';
 import { GameComponent } from './game/game.component';
 import { StartScreenComponent } from './start-screen/start-screen.component';
 

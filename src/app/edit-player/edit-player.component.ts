@@ -27,10 +27,17 @@ export class EditPlayerComponent {
     this.dialogRef.close();
   }
 
+  /**
+   * changing the path of current image to selected image in dialog
+   * @param image - image path of selected image in dialog
+   */
   changeImage(image: string) {
     this.currentImage = image;
   }
 
+  /**
+   * deleting player in edit player dialog
+   */
   deletePlayer() {
     this.sds.gameobject.players.splice(this.sds.editPlayerID, 1);
     this.sds.gameobject.playerImages.splice(this.sds.editPlayerID, 1);
@@ -39,6 +46,9 @@ export class EditPlayerComponent {
     this.dialogRef.close();
   }
 
+  /**
+   * checking current player after deleting player and setting the right number to "current player"
+   */
   checkCurrentplayer() {
     const numberOfPlayers: number = this.sds.gameobject.players.length + 1;
     const editPlayerId: number = this.sds.editPlayerID + 1;

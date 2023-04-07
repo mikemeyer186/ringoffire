@@ -26,9 +26,9 @@ export class TaskBoxComponent implements OnChanges {
     {
       title: 'Bust a jive',
       description:
-        'Player 1 makes a dance move. Player 2 repeats the dance move and adds a second one. ',
+        'Player 1 makes a dance move. Player 2 repeats the dance move and adds a second one.',
     },
-    { title: 'Chicks', description: 'All girls drink.' },
+    { title: 'Woman', description: 'All woman drink.' },
     {
       title: 'Heaven',
       description: 'Put your hands up! The last player drinks!',
@@ -47,20 +47,23 @@ export class TaskBoxComponent implements OnChanges {
     {
       title: 'Quizmaster',
       description:
-        'Go around in a circle and you have to keep asking questions to each other. Doesn’t matter what the question is, as long as its a question. Whoever messes up and does not say a question, drinks.',
+        'Go around in a circle and you have to keep asking questions to each other. Doesn`t matter what the question is, as long as it`s a question. Whoever messes up and does not say a question, drinks.',
     },
     {
       title: 'Never have i ever...',
       description:
-        'Say something you nnever did. Everyone who did it has to drink.',
+        'Say something you never did. Everyone who did it has to drink.',
     },
     {
       title: 'Rule',
       description:
-        'Make a rule. Everyone needs to drink when he breaks the rule.',
+        'Make a rule. Everyone needs to drink when breaking the rule.',
     },
   ];
 
+  /**
+   * checking card number of played card
+   */
   ngOnChanges() {
     if (this.card) {
       let numberOfCard: number = Number(this.card.match(/\d+/g));
@@ -68,6 +71,10 @@ export class TaskBoxComponent implements OnChanges {
     }
   }
 
+  /**
+   * showing task content according number of played card
+   * @param numberOfCard - number of played card
+   */
   setTaskContent(numberOfCard: number) {
     if (numberOfCard > 0) {
       this.title = this.cardAction[numberOfCard - 1].title;

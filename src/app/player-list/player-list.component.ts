@@ -20,6 +20,10 @@ export class PlayerListComponent {
     public overlay: Overlay
   ) {}
 
+  /**
+   * opening edit player dialog after clicking in player in player list
+   * @param playerID - id of player in player array
+   */
   editPlayer(playerID: number): void {
     this.sds.editPlayerID = playerID;
 

@@ -23,6 +23,10 @@ export class GameComponent implements OnDestroy {
     public sds: StoreDataService,
     public overlay: Overlay
   ) {
+    /**
+     * checking if navigation to game/id
+     * Same funktion like "ngOnInit", but fires evertime when navigation ends
+     */
     this.routerEvent = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd && !(this.router.url == '/')) {
         this.setGame();
@@ -36,6 +40,9 @@ export class GameComponent implements OnDestroy {
     this.updateEvent.unsubscribe();
   }
 
+  /**
+   * setting up the game when navigated to game/id
+   */
   setGame() {
     this.sds.getGameIdFromRoute();
     this.sds.loadGame();
@@ -47,6 +54,9 @@ export class GameComponent implements OnDestroy {
     }, 1000);
   }
 
+  /**
+   * checking if no player is created and shows add player dialog
+   */
   checkPlayer() {
     setTimeout(() => {
       if (this.sds.gameobject.players.length == 0) {
@@ -55,6 +65,9 @@ export class GameComponent implements OnDestroy {
     }, 1000);
   }
 
+  /**
+   * checking if data has changed coming from firebase and setting the card stack visuals
+   */
   checkUpdate() {
     this.updateEvent = this.sds.gameUpdate$
       .pipe(
@@ -66,6 +79,9 @@ export class GameComponent implements OnDestroy {
       });
   }
 
+  /**
+   * taking a card from stack and updating all arrays and variables
+   */
   takeCard() {
     this.sds.gameobject.pickCardAnimation = true;
     this.popLastCard();
@@ -74,6 +90,10 @@ export class GameComponent implements OnDestroy {
     this.checkCardStack();
   }
 
+  /**
+   * checking the length of the card stack and sets the visuals
+   * if card stack = 0, then showing the end screen dialog
+   */
   checkCardStack() {
     let stackLength = this.sds.gameobject.stack.length;
     if (stackLength < 20 && stackLength >= 15) {
@@ -98,6 +118,9 @@ export class GameComponent implements OnDestroy {
     }
   }
 
+  /**
+   * setting the next player after taking a card
+   */
   setCurrentPlayer() {
     if (
       this.sds.gameobject.currentPlayer == this.sds.gameobject.players.length ||
@@ -109,17 +132,26 @@ export class GameComponent implements OnDestroy {
     }
   }
 
+  /**
+   * removes the played card from stack after taking
+   */
   popLastCard() {
     this.sds.gameobject.currentCard = this.sds.gameobject.stack.pop();
     this.pushPlayedCard();
   }
 
+  /**
+   * pushing played card to played cards stack
+   */
   pushPlayedCard() {
     if (this.sds.gameobject.currentCard != undefined) {
       this.sds.gameobject.playedCards.push(this.sds.gameobject.currentCard);
     }
   }
 
+  /**
+   * opening the add player dialog and passes data after closing
+   */
   openDialog(): void {
     const addDialog = this.dialog.open(AddDialogComponent, {
       maxWidth: '100vw',
@@ -138,6 +170,9 @@ export class GameComponent implements OnDestroy {
     this.router.navigateByUrl('/');
   }
 
+  /**
+   * opening end screen dialog
+   */
   endScreenDialog(): void {
     if (!this.endDialog) {
       this.endDialog = this.dialog.open(EndDialogComponent, {
