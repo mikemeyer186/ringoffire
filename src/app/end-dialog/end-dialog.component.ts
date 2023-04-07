@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { StoreDataService } from '../store-data.service';
@@ -8,9 +8,10 @@ import { StoreDataService } from '../store-data.service';
   templateUrl: './end-dialog.component.html',
   styleUrls: ['./end-dialog.component.scss'],
 })
-export class EndDialogComponent implements OnInit {
+export class EndDialogComponent implements OnInit, OnDestroy {
   endScreenClick: Boolean = false;
   newStack: string[] = [];
+  endInterval: any = '';
 
   constructor(
     private router: Router,
@@ -20,6 +21,24 @@ export class EndDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.sds.oldGameID = this.sds.gameID;
+    this.checkNewGameFromOtherDevice();
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.endInterval);
+  }
+
+  checkNewGameFromOtherDevice() {
+    this.endInterval = setInterval(() => {
+      if (this.sds.gameobject.stack.length > 0) {
+        this.sds.gameobject.currentCard = '';
+        this.sds.gameobject.playedCards = [];
+        this.sds.gameobject.pickCardAnimation = false;
+        this.sds.updateFromDatabase();
+        this.sds.resetStack();
+        this.dialogRef.close();
+      }
+    }, 1000);
   }
 
   newGame() {
