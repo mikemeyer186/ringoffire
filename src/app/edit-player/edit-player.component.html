@@ -7,7 +7,7 @@
     </mat-form-field>
     <p>Choose image of the player</p>
     <div class="profil-box">
-        <img *ngFor="let image of playerImages" (click)="changeImage(image)" src="/assets/img/profile/{{ image }}"
+        <img *ngFor="let image of playerImages" (click)="changeImage(image)" src="assets/img/profile/{{ image }}"
             class="profil-image" [class.activeProfilImage]="currentImage == image">
     </div>
 </div>
