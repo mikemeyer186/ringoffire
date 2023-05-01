@@ -155,7 +155,6 @@ export class GameComponent implements OnDestroy {
   openDialog(): void {
     const addDialog = this.dialog.open(AddDialogComponent, {
       maxWidth: '100vw',
-      width: '100vw',
     });
 
     addDialog.afterClosed().subscribe((name: string) => {
