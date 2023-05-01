@@ -29,6 +29,7 @@ export class PlayerListComponent {
 
     const editDialog = this.dialog.open(EditPlayerComponent, {
       maxWidth: '100vw',
+      width: '100vw',
     });
 
     editDialog.afterClosed().subscribe((change: any) => {
